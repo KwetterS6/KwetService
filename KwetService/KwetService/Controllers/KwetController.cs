@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KwetService.Controllers
 {
+    [ApiController]
     [Route("[controller]")]
     public class KwetController : ControllerBase
     {
@@ -17,11 +18,13 @@ namespace KwetService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] Kwet kwet)
+        public async Task<IActionResult> Insert([FromBody]NewKwetModel kwetModel)
         {
+            Console.Out.WriteLine("message recieved");
+            Console.Out.WriteLine(kwetModel);
             try
             {
-                await _service.InsertKwet(kwet);
+                await _service.InsertKwet(kwetModel);
                 return Ok();
             }
             catch (Exception e)

@@ -17,6 +17,11 @@ namespace KwetService
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -45,11 +50,22 @@ namespace KwetService
             }
 
             app.UseRouting();
+            
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
-            });
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            // app.UseEndpoints(endpoints =>
+            // {
+            //     endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+            // });
         }
     }
 }

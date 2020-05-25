@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using KwetService.Models;
 
@@ -8,6 +9,6 @@ namespace KwetService.Services
     {
         Task<List<Kwet>> Get();
 
-        Task<Kwet> InsertKwet(Kwet kwet);
+        Task<Kwet> InsertKwet(NewKwetModel kwet);
     }
 }
