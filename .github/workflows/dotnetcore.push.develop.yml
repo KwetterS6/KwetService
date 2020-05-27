@@ -35,7 +35,7 @@ jobs:
         with:
           name: kubernetes-artifact
           path: ./kube_development
-          
+
   deliver:
     needs: build
     runs-on: ubuntu-18.04
@@ -86,7 +86,6 @@ jobs:
         with:
           namespace: kwetter-develop
           manifests: |
-            ./kube_development/kube_certificate.yaml
             ./kube_development/kube_deployment.yaml
             ./kube_development/kube_ingress.yaml
             ./kube_development/kube_service.yaml
