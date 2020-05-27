@@ -76,7 +76,7 @@ jobs:
 
       - uses: Azure/k8s-create-secret@v1
         with:
-          namespace: kwetter-developemnt
+          namespace: kwetter-developement
           container-registry-url: docker.pkg.github.com
           container-registry-username: ${{ secrets.DOCKER_USER }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
