@@ -52,7 +52,7 @@ jobs:
           path: .
       - name: Deliver Docker image
         env:
-          CONTAINER_IMAGE: docker.pkg.github.com/kwetters6/kwetservice/develop:${{ github.sha }}
+          CONTAINER_IMAGE: docker.pkg.github.com/kwetters6/kwetservice/kwetservice:${{ github.sha }}
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}"| docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} --password-stdin
           docker build -t $CONTAINER_IMAGE .
@@ -89,7 +89,7 @@ jobs:
             ./kube_development/kube_deployment.yaml
             ./kube_development/kube_service.yaml
           images: |
-            docker.pkg.github.com/kwetters6/kwetservice/develop:${{ github.sha }}
+            docker.pkg.github.com/kwetters6/kwetservice/kwetservice:${{ github.sha }}
           imagepullsecrets:
             github-docker-registry
         #env:
