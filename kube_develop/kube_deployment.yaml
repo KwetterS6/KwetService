@@ -16,7 +16,7 @@ spec:
         app: kwetservice
     spec:
       containers:
-      - image: docker.pkg.github.com/kwetters6/kwetservice/kwetservice
+      - image: docker.pkg.github.com/kwetters6/kwetservice
         imagePullPolicy: IfNotPresent
         name: kwetservice
         ports: 
