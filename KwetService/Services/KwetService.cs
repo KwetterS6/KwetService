@@ -19,12 +19,19 @@ namespace KwetService.Services
         {
             return await _repository.Get();
         }
+        
+        public async Task<List<Kwet>> GetByUserId(Guid id)
+        {
+            return await _repository.GetByUserId(id);
+        }
 
         public async Task<Kwet> InsertKwet(NewKwetModel kwet)
         {
             var newKwet = new Kwet
             {
-                Id = Guid.Parse(kwet.Id),
+                KwetId = new Guid(),
+                UserId = Guid.Parse(kwet.Id),
+                UserName = kwet.UserName,
                 Message = kwet.Message,
                 TimeStamp = DateTime.Now
                 

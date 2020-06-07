@@ -45,6 +45,19 @@ namespace KwetService.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            try
+            {
+                return Ok(await _service.GetByUserId(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         
     }
 }

@@ -20,8 +20,8 @@ namespace KwetService.Repositories
         public async Task<List<Kwet>> Get() =>
             await _kwets.Find(kwet => true).ToListAsync();
 
-        public async Task<Kwet> Get(Guid id) =>
-            await _kwets.Find<Kwet>(user => user.Id == id).FirstOrDefaultAsync();
+        public async Task<List<Kwet>> GetByUserId(Guid id) =>
+            await _kwets.Find(kwet => kwet.UserId == id).ToListAsync();
 
         public async Task<Kwet> Create(Kwet kwet)
         {

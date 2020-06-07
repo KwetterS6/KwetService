@@ -7,8 +7,10 @@ namespace KwetService.Models
     public class Kwet
     {
         [BsonId] 
+        public Guid KwetId { get; set; }
         
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public string UserName { get; set; }
 
         public string Message { get; set; }
 

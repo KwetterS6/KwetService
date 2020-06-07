@@ -9,7 +9,7 @@ namespace KwetService.Repositories
     {
         Task<List<Kwet>> Get();
 
-        Task<Kwet> Get(Guid id);
+        Task<List<Kwet>> GetByUserId(Guid id);
 
          Task<Kwet> Create(Kwet kwet);
     }
