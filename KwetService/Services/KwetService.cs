@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using KwetService.Models;
 using KwetService.Repositories;
@@ -17,7 +18,9 @@ namespace KwetService.Services
 
         public async Task<List<Kwet>> Get()
         {
-            return await _repository.Get();
+            var unsortedKwets = await _repository.Get();
+            var sortedKwets = unsortedKwets.OrderBy(o => o.TimeStamp).ToList();
+            return sortedKwets;
         }
         
         public async Task<List<Kwet>> GetByUserId(Guid id)
