@@ -19,7 +19,7 @@ namespace KwetService.Services
         public async Task<List<Kwet>> Get()
         {
             var sortedKwets = await _repository.Get();
-            sortedKwets.Sort((x, y) => DateTime.Compare(x.TimeStamp, y.TimeStamp)); 
+            sortedKwets.Sort((x, y) => DateTime.Compare(y.TimeStamp, x.TimeStamp)); 
             return sortedKwets;
         }
         
