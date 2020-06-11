@@ -58,6 +58,19 @@ namespace KwetService.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost("placeLike")]
+        public async Task<IActionResult> PlaceLike([FromBody]LikeModel model)
+        {
+            try
+            {
+                return Ok(await _service.LikeKwet(model));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         
     }
 }

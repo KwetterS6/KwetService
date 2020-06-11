@@ -36,10 +36,22 @@ namespace KwetService.Services
                 UserId = Guid.Parse(kwet.Id),
                 UserName = kwet.UserName,
                 Message = kwet.Message,
-                TimeStamp = DateTime.Now
-                
+                TimeStamp = DateTime.Now,
+                Likes =  new List<Likes>()
             };
             return await _repository.Create(newKwet);
+        }
+
+        public async Task<Kwet> LikeKwet(LikeModel kwet)
+        {
+            var likedKwet = await _repository.Get(kwet.KwetId);
+            if (likedKwet.Likes == null) 
+            {
+                likedKwet.Likes = new List<Likes>();
+            }
+            likedKwet.Likes.Add(new Likes(){userId = kwet.Id, Name = kwet.UserName});
+            return await _repository.Update(likedKwet);
+
         }
     }
 }

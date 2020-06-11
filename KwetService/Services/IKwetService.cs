@@ -10,5 +10,6 @@ namespace KwetService.Services
         Task<List<Kwet>> Get();
         Task<List<Kwet>> GetByUserId(Guid Id);
         Task<Kwet> InsertKwet(NewKwetModel kwet);
+        Task<Kwet> LikeKwet(LikeModel kwet);
     }
 }
