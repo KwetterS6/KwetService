@@ -18,10 +18,10 @@ spec:
       - backend:
           serviceName: kwetservice
           servicePort: 80
-  tls:
-  - hosts:
-    - kwet.woutervandenboorn.software
-    secretName: 
+   tls:
+    - secretName: frontend-service-tls
+      hosts: 
+        - kwet.woutervandenboorn.software
 status:
   loadBalancer:
     ingress:
