@@ -18,8 +18,8 @@ namespace KwetService.Services
 
         public async Task<List<Kwet>> Get()
         {
-            var unsortedKwets = await _repository.Get();
-            var sortedKwets = unsortedKwets.OrderBy(o => o.TimeStamp).ToList();
+            var sortedKwets = await _repository.Get();
+            sortedKwets.Sort((x, y) => DateTime.Compare(x.TimeStamp, y.TimeStamp)); 
             return sortedKwets;
         }
         
