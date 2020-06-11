@@ -28,6 +28,9 @@ namespace KwetService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors();
+            
             services.AddControllers();
 
             services.Configure<KwetstoreDatabaseSettings>(
@@ -52,7 +55,7 @@ namespace KwetService
             app.UseRouting();
             
             app.UseCors(x => x
-                .AllowAnyOrigin()
+                . AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
             );
