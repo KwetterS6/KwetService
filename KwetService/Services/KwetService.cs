@@ -57,7 +57,7 @@ namespace KwetService.Services
         public async Task<Kwet> RemoveLike(LikeModel kwet)
         {
             var unlikedKwet = await _repository.Get(kwet.KwetId);
-            var like = unlikedKwet.Likes.SingleOrDefault(x => x.userId == kwet.KwetId);
+            var like = unlikedKwet.Likes.SingleOrDefault(x => x.userId == kwet.Id);
             if (like == null)
             {
                 throw new LikeNotFoundException();
