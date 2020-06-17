@@ -19,6 +19,6 @@ spec:
           serviceName: kwetservice
           servicePort: 80
   tls:
-    - secretName: frontend-service-tls
+    - secretName: kwet-service-tls
       hosts: 
         - kwet.woutervandenboorn.software
