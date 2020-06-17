@@ -24,8 +24,7 @@ namespace KwetService.Controllers
             Console.Out.WriteLine(kwetModel);
             try
             {
-                await _service.InsertKwet(kwetModel);
-                return Ok();
+                return Ok( await _service.InsertKwet(kwetModel));
             }
             catch (Exception e)
             {
@@ -52,6 +51,32 @@ namespace KwetService.Controllers
             try
             {
                 return Ok(await _service.GetByUserId(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("placeLike")]
+        public async Task<IActionResult> PlaceLike([FromBody]LikeModel model)
+        {
+            try
+            {
+                return Ok(await _service.LikeKwet(model));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("removeLike")]
+        public async Task<IActionResult> RemoveLike([FromBody] LikeModel model)
+        {
+            try
+            {
+                return Ok(await _service.RemoveLike(model));
             }
             catch (Exception e)
             {
