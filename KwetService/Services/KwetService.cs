@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KwetService.Exceptions;
 using KwetService.Models;
 using KwetService.Repositories;
 
@@ -51,7 +52,19 @@ namespace KwetService.Services
             }
             likedKwet.Likes.Add(new Likes(){userId = kwet.Id, Name = kwet.UserName});
             return await _repository.Update(likedKwet);
+        }
 
+        public async Task<Kwet> RemoveLike(LikeModel kwet)
+        {
+            var unlikedKwet = await _repository.Get(kwet.KwetId);
+            var like = unlikedKwet.Likes.SingleOrDefault(x => x.userId == kwet.KwetId);
+            if (like == null)
+            {
+                throw new LikeNotFoundException();
+            }
+            unlikedKwet.Likes.Remove(like);
+            return await _repository.Update(unlikedKwet);
+               
         }
     }
 }
