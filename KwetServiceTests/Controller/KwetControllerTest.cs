@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KwetService.Controllers;
+using KwetService.Exceptions;
 using KwetService.Helpers;
 using KwetService.Models;
 using KwetService.Services;
@@ -54,6 +55,38 @@ namespace KwetServiceTests.Controller
         
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(returnKwet.KwetId, ((Kwet) result.Value).KwetId);
+        }
+        
+        [Fact]
+        public async Task InsertKwet_InvalidJWT_ThrowsException()
+        {
+            var userGuid = Guid.NewGuid();
+            var timeStamp = DateTime.Now;
+            const string jwt = "";
+
+            var newkwet = new NewKwetModel()
+            {
+                Id = userGuid.ToString(),
+                Message = "This is my placed Kwet",
+                UserName = "TestUser"
+            };
+        
+            var returnKwet = new Kwet()
+            {
+                KwetId = new Guid(),
+                UserId = userGuid,
+                UserName = "TestUser",
+                Message = "This is my placed Kwet",
+                TimeStamp = timeStamp,
+                Likes =  new List<Likes>()
+            };
+            _jwtIdClaimReaderHelper.Setup(x => x.getUserIdFromToken(jwt))
+                .Returns(userGuid);
+            _kwetService.Setup(x => x.InsertKwet(It.IsAny<NewKwetModel>(), jwt))
+                .Throws<JwtInvalidException>();
+            var result = await _kwetController.Insert(newkwet, jwt) as ObjectResult;
+        
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]

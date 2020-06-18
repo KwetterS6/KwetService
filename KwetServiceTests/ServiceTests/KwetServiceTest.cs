@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KwetService.Exceptions;
 using KwetService.Helpers;
 using KwetService.Models;
 using KwetService.Repositories;
@@ -60,7 +61,40 @@ namespace KwetServiceTests.ServiceTests
             Assert.Equal(returnKwet.Message, result.Message);
             Assert.Equal(returnKwet.KwetId, result.KwetId);
         }
+        
+        [Fact]
+        public async Task InsertKwets_InvalidJWT_ThrowsException()
+        {
+            var userGuid = Guid.NewGuid();
+            var timeStamp = DateTime.Now;
+            const string jwt = "";
 
+            var newkwet = new NewKwetModel()
+            {
+                Id = userGuid.ToString(),
+                Message = "This is my placed Kwet",
+                UserName = "TestUser"
+            };
+
+            var returnKwet = new Kwet()
+            {
+                KwetId = new Guid(),
+                UserId = userGuid,
+                UserName = "TestUser",
+                Message = "This is my placed Kwet",
+                TimeStamp = timeStamp,
+                Likes =  new List<Likes>()
+            };
+
+            _repository.Setup(x => x.Create(It.IsAny<Kwet>())).ReturnsAsync(returnKwet);
+            _jwtIdClaimReaderHelper.Setup(x => x.getUserIdFromToken(jwt)).Returns(Guid.Empty);
+
+            var result = await Assert.ThrowsAsync<JwtInvalidException>(() => 
+                _kwetService.InsertKwet(newkwet, jwt));
+
+            Assert.IsType<JwtInvalidException>(result);
+        }
+        
         [Fact]
         public async Task LikeKwet_SuccessfullLike_ReturnsKwetWithLikes()
         { 
