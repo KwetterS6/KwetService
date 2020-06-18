@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KwetService.Helpers;
 using KwetService.Models;
 using KwetService.Repositories;
 using KwetService.Services;
@@ -14,12 +15,16 @@ namespace KwetServiceTests.ServiceTests
     {
         private readonly IKwetService _kwetService;
         private readonly Mock<IKwetRepository> _repository;
+        private readonly Mock<IJwtIdClaimReaderHelper> _jwtIdClaimReaderHelper;
+
 
         public KwetServiceTest()
         {
             _repository = new Mock<IKwetRepository>();
+            _jwtIdClaimReaderHelper = new Mock<IJwtIdClaimReaderHelper>();
+
             _kwetService = new KwetService.Services.KwetService(
-                _repository.Object
+                _repository.Object, _jwtIdClaimReaderHelper.Object
                 );
         }
 
@@ -28,6 +33,8 @@ namespace KwetServiceTests.ServiceTests
         {
             var userGuid = Guid.NewGuid();
             var timeStamp = DateTime.Now;
+            const string jwt = "";
+
             var newkwet = new NewKwetModel()
             {
                 Id = userGuid.ToString(),
@@ -46,7 +53,9 @@ namespace KwetServiceTests.ServiceTests
             };
 
             _repository.Setup(x => x.Create(It.IsAny<Kwet>())).ReturnsAsync(returnKwet);
-            var result = await _kwetService.InsertKwet(newkwet);
+            _jwtIdClaimReaderHelper.Setup(x => x.getUserIdFromToken(jwt)).Returns(userGuid);
+
+            var result = await _kwetService.InsertKwet(newkwet, jwt);
 
             Assert.Equal(returnKwet.Message, result.Message);
             Assert.Equal(returnKwet.KwetId, result.KwetId);

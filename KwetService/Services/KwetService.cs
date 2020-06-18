@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KwetService.Exceptions;
+using KwetService.Helpers;
 using KwetService.Models;
 using KwetService.Repositories;
 
@@ -11,10 +12,13 @@ namespace KwetService.Services
     public class KwetService : IKwetService
     {
         private readonly IKwetRepository _repository;
+        private readonly IJwtIdClaimReaderHelper _jwtIdClaimReaderHelper;
 
-        public KwetService(IKwetRepository repository)
+
+        public KwetService(IKwetRepository repository, IJwtIdClaimReaderHelper jwtIdClaimReaderHelper)
         {
             _repository = repository;
+            _jwtIdClaimReaderHelper = jwtIdClaimReaderHelper;
         }
 
         public async Task<List<Kwet>> Get()
@@ -29,8 +33,12 @@ namespace KwetService.Services
             return await _repository.GetByUserId(id);
         }
 
-        public async Task<Kwet> InsertKwet(NewKwetModel kwet)
+        public async Task<Kwet> InsertKwet(NewKwetModel kwet, string token)
         {
+            if (Guid.Parse(kwet.Id) != _jwtIdClaimReaderHelper.getUserIdFromToken(token))
+            {
+                throw new NotImplementedException();
+            }
             var newKwet = new Kwet
             {
                 KwetId = new Guid(),
