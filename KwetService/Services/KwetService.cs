@@ -37,7 +37,7 @@ namespace KwetService.Services
         {
             if (Guid.Parse(kwet.Id) != _jwtIdClaimReaderHelper.getUserIdFromToken(token))
             {
-                throw new NotImplementedException();
+                throw new JwtInvalidException();
             }
             var newKwet = new Kwet
             {
