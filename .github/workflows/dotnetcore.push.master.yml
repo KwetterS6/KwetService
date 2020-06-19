@@ -80,7 +80,7 @@ jobs:
           docker build -t $CONTAINER_IMAGE .
           docker push $CONTAINER_IMAGE
 
-deploy:
+  deploy:
     needs: deliver
     runs-on: ubuntu-18.04
     steps:
