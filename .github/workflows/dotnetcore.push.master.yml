@@ -57,6 +57,7 @@ sonarscanner:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
   deliver:
     needs: build
     runs-on: ubuntu-18.04
