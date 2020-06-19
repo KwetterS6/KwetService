@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using KwetService.Models;
 using KwetService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KwetService.Controllers
@@ -18,13 +19,13 @@ namespace KwetService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody]NewKwetModel kwetModel)
+        public async Task<IActionResult> Insert([FromBody]NewKwetModel kwetModel, [FromHeader(Name = "Authorization")] string token)
         {
             Console.Out.WriteLine("message recieved");
             Console.Out.WriteLine(kwetModel);
             try
             {
-                return Ok( await _service.InsertKwet(kwetModel));
+                return Ok( await _service.InsertKwet(kwetModel, token));
             }
             catch (Exception e)
             {
